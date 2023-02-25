@@ -8,4 +8,3 @@ def get_text_messages(message):
     bot.send_message(message.from_user.id,"PIPSKA")
  else:
     bot.send_message(message.from_user.id,"Я тебя не понимаю. Напиши PIPSKA!!!!.")
- #bot.polling(none_stop=True, interval=5) 
