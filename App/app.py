@@ -1,4 +1,8 @@
 #pylint: disable=W0311
+#pylint: disable=C0114
+#pylint: disable=E0401
+#pylint: disable=C0116
+
 import telebot
 bot=telebot.TeleBot('6100720154:AAFQtSQgy85DpX4o0U88G5LYxTrrHReEbTo')
 @bot.message_handler(content_types=['text'])
