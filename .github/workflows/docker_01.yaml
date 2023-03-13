@@ -1,4 +1,4 @@
-name: CI/CD
+name: CD
 
 on: push
 
@@ -8,12 +8,15 @@ env:
 
 jobs:
   build:
-    name: Docker build
+    name: Run_my_command_on deb01
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Build Docker image
-        # Tag using the image tag above
-        run: docker build --tag "${IMAGE_TAG}" .
+      - name: test_hello
+        uses: D3rHase/ssh-command-action@{version}
+          with:
+            host: ${{secrets.HOST_TS01}} # Remote server address / ip - required
+            port: ${{secrets.PORT_TS01}} # Remote server port -  Default: 22 - optional
+            user: ${{secrets.USER_TS01}} # Remote server user - required
+            #private_key: ${{secrets.PRIVATE_KEY}} # Private ssh key registered on the remote server - required
+            #host_fingerprint: ${{secrets.HOST_FINGERPRINT}} # Public ssh key fingerprint, viewable via ssh-keyscan -H $HOST -p $PORT - optional
+            command: echo 'hello world' # Command to be executed - Default: echo 'hello world' - optional
