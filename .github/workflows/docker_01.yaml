@@ -1,25 +1,18 @@
 name: CD
-
-push:
-    branches: [ "web3" ]
-pull_request:
-    branches: [ "web3" ]
-
-# Define the image tag
-env:
-  IMAGE_TAG: 42476/telegabot:latest
-
+on:
+ push:
+    branches: ["web3"]
+ pull_request:
+    branches: ["web3"]
 jobs:
   build:
-    name: Run_my_command_on deb01
-    runs-on: ubuntu-latest
-    steps:
-      - name: test_hello
-        uses: D3rHase/ssh-command-action@{version}
-         with:
-           host: ${{secrets.HOST_TS01}} # Remote server address / ip - required
-           port: ${{secrets.PORT_TS01}} # Remote server port -  Default: 22 - optional
-           user: ${{secrets.USER_TS01}} # Remote server user - required
-           #private_key: ${{secrets.PRIVATE_KEY}} # Private ssh key registered on the remote server - required
-           #host_fingerprint: ${{secrets.HOST_FINGERPRINT}} # Public ssh key fingerprint, viewable via ssh-keyscan -H $HOST -p $PORT - optional
-           command: echo 'hello world' # Command to be executed - Default: echo 'hello world' - optional
+   name: Run_hello
+   runs-on: ubuntu-latest
+   steps:
+   - name: run_coomand 
+     uses: D3rHase/ssh-command-action@{version}
+     with:
+      host: ${{secrets.HOST_TS01}}
+      port: ${{secrets.PORT_TS01}}
+      user: ${{secrets.USER_TS01}}
+      command: echo 'hello world'
