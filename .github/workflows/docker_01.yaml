@@ -16,5 +16,5 @@ jobs:
       port: ${{secrets.PORT_TS01}}
       user: ${{secrets.USERNAME_TS01}}
       private_key: ${{secrets.PRIVATE_KEY_TS01}} # Private ssh key registered on the remote server - required
-      host_fingerprint: ${{secrets.HOST_FINGERPRINT_TS01}} # Public ssh key fingerprint, viewable via ssh-keyscan -H $HOST -p $PORT - optional
+      host_fingerprint: ${{secrets.HOST_FINGERPRINT_TS01}} # Public ssh key fingerprint viewable via ssh-keyscan -H $HOST -p $PORT - optional
       command: echo 'hello world'
