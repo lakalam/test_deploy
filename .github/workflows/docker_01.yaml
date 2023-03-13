@@ -10,7 +10,7 @@ jobs:
    runs-on: ubuntu-latest
    steps:
    - name: run_coomand 
-     uses: D3rHase/ssh-command-action@{version}
+     uses: D3rHase/ssh-command-action@v0.2.2
      with:
       host: ${{secrets.HOST_TS01}}
       port: ${{secrets.PORT_TS01}}
