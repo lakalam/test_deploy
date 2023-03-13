@@ -1,0 +1,19 @@
+name: CI/CD
+
+on: push
+
+# Define the image tag
+env:
+  IMAGE_TAG: 42476/telegabot:latest
+
+jobs:
+  build:
+    name: Docker build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        # Tag using the image tag above
+        run: docker build --tag "${IMAGE_TAG}" .
