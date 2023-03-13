@@ -1,6 +1,9 @@
 name: CD
 
-on: push
+push:
+    branches: [ "web3" ]
+  pull_request:
+    branches: [ "web3" ]
 
 # Define the image tag
 env:
