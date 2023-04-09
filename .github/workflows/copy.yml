@@ -15,4 +15,4 @@ jobs:
         password: ${{ secrets.PASSWORD_DEB01 }}
         port: ${{ secrets.PORT_DEB01 }}
         source: "./index.html"
-        target: "/home/Compose/My_web/html/m.nerpeg.ru/index.html"
+        target: "/home/Compose/My_web/html/m.nerpeg.ru/"
