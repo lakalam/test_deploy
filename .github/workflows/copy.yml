@@ -1,0 +1,18 @@
+name: scp files
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST_TS01 }}
+        username: ${{ secrets.USERNAME_TS01 }}
+        password: ${{ secrets.PASSWORD_TS01 }}
+        port: ${{ secrets.PORT_TS01 }}
+        source: "./index.html"
+        target: "/home/Compose/My_web/html/m.nerpeg.ru/index.html"
