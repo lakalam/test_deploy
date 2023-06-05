@@ -3,7 +3,7 @@ services:
     Database:
       image: mysql:8.0 #установка mysql
       volumes:
-        - /home/lakalam/data_mysql:/var/lib/mysql
+        - /home/lakalam/zabbix/data_mysql:/var/lib/mysql
       environment:
         - MYSQL_DATABASE=zabbix
         - MYSQL_USER=zabbix
@@ -12,7 +12,8 @@ services:
       ports:
         - 3306:3306
 
-      networks: zabbix-net
+      #networks: 
+      #  - zabbix-net
       restart: always
       command:
         --character-set-server=utf8
@@ -23,21 +24,24 @@ services:
       image: zabbix/zabbix-server-mysql:alpine-6.0-latest
       volumes:
         - /home/lakalam/zabbix/zabbix-server:/var/lib/zabbix
-        - /home/lakalam/zabbix/zabbix-server//etc/zabbix/zabbix_server.conf:/etc/zabbix/zabbix_server.conf
-      environment:   
+        #- /home/lakalam/zabbix/zabbix-server/zabbix_server.conf:/etc/zabbix/zabbix_server.conf:ro
+      environment: 
         - DB_SERVER_HOST=zabbix_mysql-server
         - MYSQL_DATABASE=zabbix
         - MYSQL_USER=zabbix
         - MYSQL_PASSWORD=zabbix_pwd
         - MYSQL_ROOT_PASSWORD=root_pwd
         - ZBX_JAVAGATEWAY=zabbix-java-gateway
-      networks: zabbix-net  
+      #networks:
+      #  -  zabbix-net
       ports:
-        10051:10051
+        - 10051:10051
       container_name: zabbix_server
-
+      restart: always
+      depends_on: 
+        - Database
     web:
-      images: zabbix/zabbix-web-nginx-mysql:alpine-6.0-latest
+      image: zabbix/zabbix-web-nginx-mysql:alpine-6.0-latest
       #volumes:
       #   - /home/lakalam/zabbix/zabbix-nginx:/var/lib/zabbix
       environment:
@@ -47,15 +51,24 @@ services:
         - MYSQL_USER=zabbix
         - MYSQL_PASSWORD=zabbix_pwd
         - MYSQL_ROOT_PASSWORD=root_pwd
-      #networks: zabbix-net  
+      #networks:
+      #  - zabbix-net
       ports:
-        82:8080  
+        - 80:8080
       container_name: zabbix_nginx
       restart: always
+      depends_on: 
+        - Database
+        - Zabbix_server
     java-gateway:
-      images: zabbix/zabbix-java-gateway:alpine-6.0-latest
-      volumes:
-        -  
-      #networks: zabbix-net
+      image: zabbix/zabbix-java-gateway:alpine-6.0-latest
+      #volumes:
+      #  -  
+      #networks: 
+      #   - zabbix-net
       restart: always
-      container_name: zabbix-java-gateway
+      container_name: zabbix-jagateway
+networks: 
+  default:
+    external:
+      name: zabbix-net
