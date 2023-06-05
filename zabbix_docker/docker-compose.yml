@@ -12,22 +12,50 @@ services:
       ports:
         - 3306:3306
 
-      #networks:
-      #  - zabbix-net
+      networks: zabbix-net
       restart: always
       command:
         --character-set-server=utf8
         --collation-server=utf8_bin
         --default-authentication-plugin=mysql_native_password
-      container_name: mysql-server1
+      container_name: zabbix_mysql-server
     Zabbix_server:
-      image:
+      image: zabbix/zabbix-server-mysql:alpine-6.0-latest
       volumes:
-
-      container_name: Zabbix_server
+        - /home/lakalam/zabbix/zabbix-server:/var/lib/zabbix
+        - /home/lakalam/zabbix/zabbix-server//etc/zabbix/zabbix_server.conf:/etc/zabbix/zabbix_server.conf
+      environment:   
+        - DB_SERVER_HOST=zabbix_mysql-server
+        - MYSQL_DATABASE=zabbix
+        - MYSQL_USER=zabbix
+        - MYSQL_PASSWORD=zabbix_pwd
+        - MYSQL_ROOT_PASSWORD=root_pwd
+        - ZBX_JAVAGATEWAY=zabbix-java-gateway
+      networks: zabbix-net  
+      ports:
+        10051:10051
+      container_name: zabbix_server
 
     web:
-      images:
+      images: zabbix/zabbix-web-nginx-mysql:alpine-6.0-latest
+      #volumes:
+      #   - /home/lakalam/zabbix/zabbix-nginx:/var/lib/zabbix
+      environment:
+        - ZBX_SERVER_HOST=zabbix_server
+        - DB_SERVER_HOST=zabbix_mysql-server
+        - MYSQL_DATABASE=zabbix
+        - MYSQL_USER=zabbix
+        - MYSQL_PASSWORD=zabbix_pwd
+        - MYSQL_ROOT_PASSWORD=root_pwd
+      #networks: zabbix-net  
+      ports:
+        82:8080  
+      container_name: zabbix_nginx
+      restart: always
+    java-gateway:
+      images: zabbix/zabbix-java-gateway:alpine-6.0-latest
       volumes:
-
-      container_name: nginx
+        -  
+      #networks: zabbix-net
+      restart: always
+      container_name: zabbix-java-gateway
