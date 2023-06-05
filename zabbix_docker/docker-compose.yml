@@ -1,6 +1,6 @@
 version: '3'
 services:
-   Database:
+    Database:
       image: mysql:8.0 #установка mysql
       volumes:
         - /home/lakalam/data_mysql:/var/lib/mysql
@@ -20,4 +20,14 @@ services:
         --collation-server=utf8_bin
         --default-authentication-plugin=mysql_native_password
       container_name: mysql-server1
-      
+    Zabbix_server:
+      image:
+      volumes:
+
+      container_name: Zabbix_server
+
+    web:
+      images:
+      volumes:
+
+      container_name: nginx
